@@ -1,0 +1,131 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12px;
+	font-weight: 800;
+	fill: #242424;
+	text-align: center;
+	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+	cursor: default;
+}
+p {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 13px;
+	fill: #242424;
+	text-align: left;
+	text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+	cursor: default;
+}	
+
+.legend {
+	font-family: 'Raleway', sans-serif;
+	fill: #333333;
+}
+			
+.btn {
+	border-radius: 10px;
+	background-color: #008000;
+	color: white;
+	padding: 10px 10px;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.title {
+	font-size: 20px;
+	padding-bottom: 10px;
+	padding-top: 20px;
+	font-weight: 900;
+	color: #483d8b;
+}
+
+#barchartinfo {
+	font-size: 12px;
+	max-width: 640px;
+	margin: 0 auto;
+	padding-top: 10px;
+	color: black;
+	font-weight: bold;
+}
+
+#explanation {
+	font-size: 12px;
+	max-width: 620px;
+	margin: 0 auto;
+	padding-top: 10px;
+	color: #ababab;
+	font-weight: 300;
+}
+
+.y.axis line {
+	fill: none;
+}
+
+.x.axis line {
+	fill: none;
+	stroke: #e0e0e0;
+	shape-rendering: crispEdges;
+}
+
+.axis path {
+	display: none;
+}
+
+.brush .extent {
+	fill-opacity: .125;
+	shape-rendering: crispEdges;
+}
+
+.resize {
+	display: inline !important; /* show when empty */
+	fill: #7A7A7A;
+	fill-opacity: 1;
+	stroke: #7A7A7A;
+	stroke-width: 2px;
+}
+
+.d3-tip {
+	border: 1px;		
+	border-radius: 8px;
+	padding: 8px;
+	background-color:lightblue;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+	box-sizing: border-box;
+	display: inline;
+	font-size: 10px;
+	width: 100%;
+	line-height: 1;
+	color: rgba(0, 0, 0, 0.8);
+	content: "\25BC";
+	position: absolute;
+	text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+	margin: -1px 0 0 0;
+	top: 100%;
+	left: 0;
+}
+			
+.d3-tip-radar {
+	border-width: 0.5px;
+	border-style: solid;
+	border-radius: 8px;
+	padding: 8px;
+	background-color: white;
+	font-size: 11px
+}
+.label {
+	font-size: 20px;
+	font-weight: bold;
+	fill: #483d8b;
+}
+.sublabel {
+	font-size: 11px;
+	font-weight: bold;
+	fill: red;
+}

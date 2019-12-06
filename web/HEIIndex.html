@@ -1,0 +1,103 @@
+<!--  Adapted from Radar chart design created by Nadieh Bremer: https://gist.github.com/nbremer/21746a9668ffdf6d8242#file-radarchart-js   -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+		<meta http-equiv="Pragma" content="no-cache"/>
+		<meta http-equiv="Expires" content="0"/>
+		<title>HEI Radar Chart</title>
+
+		<!-- Google fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../HEIIndex.css">
+
+		<!-- D3.js -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+		<!-- <script src="d3.v3.js"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
+		<!--<script src="//d3js.org/d3.v3.min.js"></script>-->
+	</head>
+	<body>
+
+		<button class="btn refresh" onclick="homepage(this.form)">Back to HomePage<i class="fa fa-refresh"></i></button>
+		<div class="title">Healthy Eating Index Radar Chart</div>
+		<div class="radarChart"></div>
+			<script src="../radarChart.js"></script>
+		<p style="text-align:center"> Learn More:</p>
+		<p style="text-align:center"><a href="https://epi.grants.cancer.gov/hei/developing.html#2015">Healthy Eating Index–2015</a></p>
+		<p style="text-align:center"> <a href="https://health.gov/dietaryguidelines/2015/guidelines/">Dietary Guideline For Americans 2015-2020</a></p>
+		<div id="barchartinfo">The above HEI score is a measure of diet quality independent of quatity. Below bar chart will give you hint of your diet quatity. Quatitative guidelines vary by age, gender, weight etc. Use the total energy as an indicator for your specific needs.</div>
+		<div class="title">Brushable Nutrition bar chart</div>
+		<div id="BarChart"></div>
+		<div id="explanation">You can see more or less of the total bar chart on the left by either dragging the box in the mini chart on the right or by scrolling your mouse. You can also click anywhere in the mini chart to center the box on that region. And you can increase and decrease the size of the box by dragging the top or bottom handle up or down.</div>
+			<script src="../barChart.js?rndstr="+<%= getRandomStr() %></script>		
+
+		<script>
+            function homepage(){
+                window.location = '../DailyNutrition.html';
+            }
+			//////////////////////// Set-Up ////////////////////////////// 
+ 
+			var margin = {top: 100, right: 100, bottom: 100, left: 100},
+				width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
+				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+					
+ 
+			////////////////////////// Data ////////////////////////////// 
+			d3.json('http://127.0.0.1:5000/hei',function(d) {
+				var FP_names = Object.keys(d.HEI)
+				FP_names.splice( FP_names.indexOf('Total_HEI'), 1 )
+				var data = [];
+				var FP = []		
+
+				for (var i = 0; i < FP_names.length; i++){
+					fp = d.HEI[FP_names[i]]
+					FP.push({axis: FP_names[i].replace(/_/g, " "), value: fp.HEIscore / fp.Max_score,
+						HEIscore: fp.HEIscore, Max_standard: fp.Max_standard,
+						 Min_standard: fp.Min_standard, Max_score: fp.Max_score, Measure: fp.Measure
+					});
+				}
+				var Total_HEI = d.HEI.Total_HEI;
+				data.push(FP);
+ 			 
+			//////////////////// Draw the Chart ////////////////////////// 
+			 
+			var color = d3.scale.ordinal()
+				.range(["#00A0B0","#CC333F","#EDC951"]);
+				
+			var radarChartOptions = {
+			  w: width,
+			  h: height,
+			  margin: margin,
+			  maxValue: 1.0,
+			  levels: 10,
+			  roundStrokes: true,
+			  color: color
+			};
+			//Call function to draw the Radar chart
+			RadarChart(".radarChart", data, radarChartOptions, Total_HEI);
+			
+			//////////////////BarChart Data////////////////////
+			var nutri_list = ["Protein","Total Fat","Carbohydrate","Energy","Alcohol","Water","Caffeine","Theobromine","Sugars, total","Fiber, total dietary","Calcium","Iron","Magnesium","Phosphorus","Potassium","Sodium","Zinc","Copper","Selenium","Retinol","Vitamin A, RAE","Carotene, beta","Carotene, alpha","Vitamin E (alpha-tocopherol)","Vitamin D (D2 + D3)","Cryptoxanthin, beta","Lycopene","Lutein + zeaxanthin","Vitamin C","Thiamin","Riboflavin","Niacin","Vitamin B-6","Folate, total","Vitamin B-12","Choline, total","Vitamin K (phylloquinone)","Folic acid","Folate, food","Folate, DFE","Vitamin E, added","Vitamin B-12, added","Cholesterol","Fatty acids, total saturated","Fatty acids, total monounsaturated","Fatty acids, total polyunsaturated"];
+			var nutri_value = [];
+			for (var i = 0; i < nutri_list.length; i++) {
+				var name = nutri_list[i];
+				var unit = d.Nutrition[nutri_list[i]].Unit;
+				var value = Math.round((d.Nutrition[nutri_list[i]].Value)*100)/100;
+				var my_object = {};
+				my_object.key = i;
+				my_object.nutri = name+" (" + unit + ")";
+				my_object.value = value;
+				nutri_value.push(my_object);
+			}//for i 
+			nutri_value.sort(function(a,b) { return b.value - a.value; }); 
+			//Call function to draw bar chart
+			barChart(nutri_value);
+			});
+			 
+		</script>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <!-- <script>document.write('<script src="../grid.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script> -->
+    </head>
+    <style type="text/css">
+            body {
+                background-color: #DCDCDC;
+            }
+    </style>
+    <body>
+        <div id='title' style='text-align: center;'></div>
+
+        <br />
+        <p>The following is a video demo of our application.</p>
+        <input type="button" onclick="homepage(this.form)" value="Back to HomePage"/>
+        <br />
+        <br />
+            <iframe width="560" height="500" src="https://www.youtube.com/embed/2TOkUNgL75E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br/>
+        <br/>
+        <script type="text/javascript">
+
+            var title = d3.select('#title');
+            title.append("text")
+                .style("font-size", "25px")
+                .text('User Guide');
+
+            function homepage(){
+                window.location = '../DailyNutrition.html'
+            }
+        </script>
+   </body>
+
+</html>

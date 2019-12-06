@@ -1,0 +1,423 @@
+{
+  "HEI": {
+    "Total_Fruits": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 5,
+      "Max_standard": ">=0.8 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Whole_Fruits": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 5,
+      "Max_standard": ">=0.4 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Total_Vegetables": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 5,
+      "Max_standard": ">=1.1 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Greens_and_Beans": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 5,
+      "Max_standard": ">=0.2 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Whole_Grains": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 10,
+      "Max_standard": ">=1.5 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Dairy": {
+      "Measure": "4.6 cup eq. per 1,000 kcal",
+      "HEIscore": 10,
+      "Max_score": 10,
+      "Max_standard": ">=1.3 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Total_Protein_Foods": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 5,
+      "Max_standard": ">=2.5 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Seafood_and_Plant_Proteins": {
+      "Measure": "0.0 cup eq. per 1,000 kcal",
+      "HEIscore": 0,
+      "Max_score": 5,
+      "Max_standard": ">=0.8 cup eq. per 1,000 kcal",
+      "Min_standard": "0 cup eq. per 1,000 kcal"
+    },
+    "Refined_Grains": {
+      "Measure": "0.0 oz eq. per 1,000 kcal",
+      "HEIscore": 10,
+      "Max_score": 10,
+      "Max_standard": "<=1.8 oz eq. per 1,000 kcal",
+      "Min_standard": ">=4.3 oz eq. per 1,000 kcal"
+    },
+    "Added_Sugars": {
+      "Measure": "23.4 % of energy",
+      "HEIscore": 1,
+      "Max_score": 10,
+      "Max_standard": "<=6.5% of energy",
+      "Min_standard": ">=26% of energy"
+    },
+    "Fatty_Acids": {
+      "Measure": "0.5 (MUFAs + PUFAs) /SFAs",
+      "HEIscore": 0,
+      "Max_score": 10,
+      "Max_standard": "(MUFAs + PUFAs) /SFAs>=2.5",
+      "Min_standard": "(MUFAs + PUFAs)/SFAs<=1.2"
+    },
+    "Sodium": {
+      "Measure": "0.6 g per 1,000 kcal",
+      "HEIscore": 10,
+      "Max_score": 10,
+      "Max_standard": "<=1.1 g per 1,000 kcal",
+      "Min_standard": ">=2.0 g per 1,000 kcal"
+    },
+    "Saturated_Fats": {
+      "Measure": "20.7 % of energy",
+      "HEIscore": 0,
+      "Max_score": 10,
+      "Max_standard": "<=8% of energy",
+      "Min_standard": ">=16% of energy"
+    },
+    "Total_HEI": 31
+  },
+  "Nutrition": {
+    "Protein": {
+      "Value": 8.035200000000001,
+      "Code": 203,
+      "Unit": "g"
+    },
+    "Total Fat": {
+      "Value": 7.9112,
+      "Code": 204,
+      "Unit": "g"
+    },
+    "Carbohydrate": {
+      "Value": 24.948800000000002,
+      "Code": 205,
+      "Unit": "g"
+    },
+    "Energy": {
+      "Value": 203.35999999999996,
+      "Code": 208,
+      "Unit": "kcal"
+    },
+    "Alcohol": {
+      "Value": 0.0,
+      "Code": 221,
+      "Unit": "g"
+    },
+    "Water": {
+      "Value": 205.2696,
+      "Code": 255,
+      "Unit": "g"
+    },
+    "Caffeine": {
+      "Value": 0.0,
+      "Code": 262,
+      "Unit": "mg"
+    },
+    "Theobromine": {
+      "Value": 42.16,
+      "Code": 263,
+      "Unit": "mg"
+    },
+    "Sugars, total": {
+      "Value": 24.2296,
+      "Code": 269,
+      "Unit": "g"
+    },
+    "Fiber, total dietary": {
+      "Value": 0.7439999999999999,
+      "Code": 291,
+      "Unit": "g"
+    },
+    "Calcium": {
+      "Value": 332.32,
+      "Code": 301,
+      "Unit": "mg"
+    },
+    "Iron": {
+      "Value": 0.0744,
+      "Code": 303,
+      "Unit": "mg"
+    },
+    "Magnesium": {
+      "Value": 32.24,
+      "Code": 304,
+      "Unit": "mg"
+    },
+    "Phosphorus": {
+      "Value": 208.32,
+      "Code": 305,
+      "Unit": "mg"
+    },
+    "Potassium": {
+      "Value": 349.68,
+      "Code": 306,
+      "Unit": "mg"
+    },
+    "Sodium": {
+      "Value": 121.52,
+      "Code": 307,
+      "Unit": "mg"
+    },
+    "Zinc": {
+      "Value": 1.9096000000000002,
+      "Code": 309,
+      "Unit": "mg"
+    },
+    "Copper": {
+      "Value": 0.17360000000000003,
+      "Code": 312,
+      "Unit": "mg"
+    },
+    "Selenium": {
+      "Value": 8.928,
+      "Code": 317,
+      "Unit": "mcg"
+    },
+    "Retinol": {
+      "Value": 104.16,
+      "Code": 319,
+      "Unit": "mcg"
+    },
+    "Vitamin A, RAE": {
+      "Value": 106.64,
+      "Code": 320,
+      "Unit": "mcg_RAE"
+    },
+    "Carotene, beta": {
+      "Value": 17.36,
+      "Code": 321,
+      "Unit": "mcg"
+    },
+    "Carotene, alpha": {
+      "Value": 0.0,
+      "Code": 322,
+      "Unit": "mcg"
+    },
+    "Vitamin E (alpha-tocopherol)": {
+      "Value": 0.17360000000000003,
+      "Code": 323,
+      "Unit": "mg"
+    },
+    "Vitamin D (D2 + D3)": {
+      "Value": 2.9759999999999995,
+      "Code": 328,
+      "Unit": "mcg"
+    },
+    "Cryptoxanthin, beta": {
+      "Value": 0.0,
+      "Code": 334,
+      "Unit": "mcg"
+    },
+    "Lycopene": {
+      "Value": 0.0,
+      "Code": 337,
+      "Unit": "mcg"
+    },
+    "Lutein + zeaxanthin": {
+      "Value": 0.0,
+      "Code": 338,
+      "Unit": "mcg"
+    },
+    "Vitamin C": {
+      "Value": 4.215999999999999,
+      "Code": 401,
+      "Unit": "mg"
+    },
+    "Thiamin": {
+      "Value": 0.0992,
+      "Code": 404,
+      "Unit": "mg"
+    },
+    "Riboflavin": {
+      "Value": 0.3968,
+      "Code": 405,
+      "Unit": "mg"
+    },
+    "Niacin": {
+      "Value": 0.2232,
+      "Code": 406,
+      "Unit": "mg"
+    },
+    "Vitamin B-6": {
+      "Value": 0.2232,
+      "Code": 415,
+      "Unit": "mg"
+    },
+    "Folate, total": {
+      "Value": 12.4,
+      "Code": 417,
+      "Unit": "mcg"
+    },
+    "Vitamin B-12": {
+      "Value": 1.0415999999999999,
+      "Code": 418,
+      "Unit": "mcg"
+    },
+    "Choline, total": {
+      "Value": 33.727999999999994,
+      "Code": 421,
+      "Unit": "mg"
+    },
+    "Vitamin K (phylloquinone)": {
+      "Value": 0.7439999999999999,
+      "Code": 430,
+      "Unit": "mcg"
+    },
+    "Folic acid": {
+      "Value": 0.0,
+      "Code": 431,
+      "Unit": "mcg"
+    },
+    "Folate, food": {
+      "Value": 12.4,
+      "Code": 432,
+      "Unit": "mcg"
+    },
+    "Folate, DFE": {
+      "Value": 12.4,
+      "Code": 435,
+      "Unit": "mcg_DFE"
+    },
+    "Vitamin E, added": {
+      "Value": 0.0,
+      "Code": 573,
+      "Unit": "mg"
+    },
+    "Vitamin B-12, added": {
+      "Value": 0.0,
+      "Code": 578,
+      "Unit": "mcg"
+    },
+    "Cholesterol": {
+      "Value": 22.32,
+      "Code": 601,
+      "Unit": "mg"
+    },
+    "Fatty acids, total saturated": {
+      "Value": 4.687199999999999,
+      "Code": 606,
+      "Unit": "g"
+    },
+    "4:00": {
+      "Value": 0.17360000000000003,
+      "Code": 607,
+      "Unit": "g"
+    },
+    "6:00": {
+      "Value": 0.17360000000000003,
+      "Code": 608,
+      "Unit": "g"
+    },
+    "8:00": {
+      "Value": 0.17360000000000003,
+      "Code": 609,
+      "Unit": "g"
+    },
+    "10:00": {
+      "Value": 0.17360000000000003,
+      "Code": 610,
+      "Unit": "g"
+    },
+    "12:00": {
+      "Value": 0.17360000000000003,
+      "Code": 611,
+      "Unit": "g"
+    },
+    "14:00": {
+      "Value": 0.6696000000000001,
+      "Code": 612,
+      "Unit": "g"
+    },
+    "16:00": {
+      "Value": 2.0831999999999997,
+      "Code": 613,
+      "Unit": "g"
+    },
+    "18:00": {
+      "Value": 1.0168,
+      "Code": 614,
+      "Unit": "g"
+    },
+    "18:01": {
+      "Value": 1.8847999999999998,
+      "Code": 617,
+      "Unit": "g"
+    },
+    "18:02": {
+      "Value": 0.27280000000000004,
+      "Code": 618,
+      "Unit": "g"
+    },
+    "18:03": {
+      "Value": 0.17360000000000003,
+      "Code": 619,
+      "Unit": "g"
+    },
+    "20:04": {
+      "Value": 0.0,
+      "Code": 620,
+      "Unit": "g"
+    },
+    "22:6 n-3": {
+      "Value": 0.0,
+      "Code": 621,
+      "Unit": "g"
+    },
+    "16:01": {
+      "Value": 0.0,
+      "Code": 626,
+      "Unit": "g"
+    },
+    "18:04": {
+      "Value": 0.0,
+      "Code": 627,
+      "Unit": "g"
+    },
+    "20:01": {
+      "Value": 0.0,
+      "Code": 628,
+      "Unit": "g"
+    },
+    "20:5 n-3": {
+      "Value": 0.0,
+      "Code": 629,
+      "Unit": "g"
+    },
+    "22:01": {
+      "Value": 0.0,
+      "Code": 630,
+      "Unit": "g"
+    },
+    "22:5 n-3": {
+      "Value": 0.0,
+      "Code": 631,
+      "Unit": "g"
+    },
+    "Fatty acids, total monounsaturated": {
+      "Value": 1.8847999999999998,
+      "Code": 645,
+      "Unit": "g"
+    },
+    "Fatty acids, total polyunsaturated": {
+      "Value": 0.4463999999999999,
+      "Code": 646,
+      "Unit": "g"
+    }
+  }
+}

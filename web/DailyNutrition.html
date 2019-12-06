@@ -1,0 +1,427 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href='../appstyles.css?rnd=' + Math.floor(Math.random() * 100) + rel='stylesheet' type='text/css'>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- <script>document.write('<script src="../grid.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script> -->
+    </head>
+
+    <style type="text/css">
+    .selector {
+        fill: none;
+        stroke-width: 2px;
+        position: absolute;
+        top: 10;
+        left: 50;
+        }
+    .label {
+        clear:left;
+        height:25px;
+        margin-top:20px;
+        margin-right:2px;
+        margin-bottom:20px;
+        margin-left:5px;
+        }
+    .element {
+        clear:left;
+        height:25px;
+        margin-top:10px;
+        margin-right:15;
+        margin-bottom:10px;
+        margin-left:2px;
+    }
+    .divStyle {
+        border-radius: 25px;
+        border: 2px solid #73AD21;
+        padding: 20px;
+        margin-top:10px 
+    }
+
+    .radarButton {
+      background-color: #1C6EA4;
+      border-radius: 15px;
+      color: white;
+      padding: 5px 10px 5px 10px;
+      float: right;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    th, td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
+    div.tooltip {
+        position: absolute;         
+        text-align: center;         
+        width: 100px;                    
+        height: 28px;                   
+        padding: 2px;               
+        font: 12px sans-serif;      
+        background: white; 
+        border: 1px;        
+        border-radius: 12px;         
+        pointer-events: none;           
+    }
+
+    body {
+      background-color: #DCDCDC;
+    }
+    </style>
+    <body>
+        <!-- NAFIZ CODE START --> 
+        <div id='title' style='text-align: center;'></div>
+        <p>Healthy Eating Index-2015 <a href="https://epi.grants.cancer.gov/hei/">(HEI-2015)</a> is a measure of adherence to the <a href="https://health.gov/dietaryguidelines/2015/guidelines/">Dietary Guidelines for Americans (2015-2020)</a>.
+			<br> Wondering if you are meeting the dietary guidelines and what is your HEI score? 
+				<br>Let's start by adding your food intake for a day to the best of your knowledge.
+				</p>
+        <div id="userguide">
+            <input name="userguide" 
+                   type="button" 
+                   value="User Guide" 
+                   onclick="loadPage('../UserGuide.html')" 
+                   onmouseout="mouseout()"
+                   onmouseover="mouseover('Link to User Guide Tutorial of App', '90px', '110px', 'userguide')"
+            />
+        </div>
+
+        <div id="options" class="divStyle">
+            <div id="table"></div>
+        </div>
+        
+        <!-- NAFIZ CODE END --> 
+
+    <script type="text/javascript">
+         var hPadding = 50;
+         var vPadding = 250;
+         var w = window.innerWidth * 0.5;
+         var h = window.innerHeight; //Naf removed shrinkage
+         var categories = [];
+         var L1_options = [];
+         var L2_options = [];
+         var L3_options = [];
+         var L4_options = [];
+         var portion_options = [];
+         var items = []
+         var nutrients = {};
+         var nutrients_matrix = [];
+         var barChart;
+         var foodEntries = [];
+         var user_input_string = '';
+
+        var title = d3.select('#title');
+        title.append("text")
+            .style("font-size", "25px")
+            .text('Daily Healthy Eating Index (HEI-2015) Calculator');
+        var columns = ["Id", "Category 1", "Category 2", "Category 3", "Category 4", "Item", "Item_ID", "Portion", "Portion_ID", "Quantity", "Actions"];
+        
+        var options_space = d3.select("#options");
+        //var table_space = d3.select("#table");
+
+        var L1_selector = options_space.append("text").text("Category 1:").attr("class", "element").append("select").on("change", L1_onchange).attr("id", "op1").attr("class", "element");
+        var L2_selector = options_space.append("text").text("Category 2:").attr("class", "element").append("select").on("change", L2_onchange).attr("id", "op2").attr("class", "element");
+        var L3_selector = options_space.append("text").text("Category 3:").attr("class", "element").append("select").on("change", L3_onchange).attr("id", "op3").attr("class", "element");
+        var L4_selector = options_space.append("text").text("Category 4:").attr("class", "element").append("select").on("change", L4_onchange).attr("id", "op4").attr("class", "element");
+        options_space.append('br');
+        var item_selector = options_space.append("text").text("Item:").attr("class", "element").append("select").on("change", item_onchange).attr("id", "op5").attr("class", "element");
+        var portion_selector = options_space.append("text").text("Portion:").append("select").attr("id", "op6").attr("class", "element");
+        
+        var quantity_selector = options_space.append("text").text("Quantity:").append("select").attr("id", "op7").attr("class", "element");
+        quantity_selector.selectAll("option")
+            .data(Array.from(Array(20)).map((e,i)=>i/2 +.5))
+            .enter()
+            .append("option")
+            .attr("value", function(d, i) { return d; })
+            .text(function(d) { return d; });
+
+        var add_record = options_space.append("button").text("Add").attr("class", "element").attr("id", "add")
+                                .on('click', function() {
+                                    var new_entry = {};
+                                    new_entry["Id"] = foodEntries.length + 1;
+                                    new_entry["Category 1"] = $("#op1 option:selected").text();
+                                    new_entry["Category 2"] = $("#op2 option:selected").text();
+                                    new_entry["Category 3"] = $("#op3 option:selected").text();
+                                    new_entry["Category 4"] = $("#op4 option:selected").text();
+                                    new_entry["Item"] = $("#op5 option:selected").text();
+                                    new_entry["Item_ID"] = $("#op5 option:selected").val();
+                                    new_entry["Portion"] = $("#op6 option:selected").text();
+                                    new_entry["Portion_ID"] = $("#op6 option:selected").val();
+                                    new_entry["Quantity"] = $("#op7 option:selected").text();
+                                    new_entry["Actions"] =  new_entry["Id"];
+                                    if (($("#op6 option:selected").val() != null && $("#op6 option:selected").text() != 'Select an option..') && $("#op5 option:selected").val() != ""){
+                                        foodEntries.push(new_entry);
+                                        refreshTable(table, columns, foodEntries);
+                                        if ($("#op5 option:selected").val() != "" && $("#op5 option:selected").val() != null) {
+                                            refreshNutritionData("Add", "", $("#op5 option:selected").val())  
+                                            //displayNutrients();
+                                        }
+                                    }
+                                    else {
+                                        mouseover('Please select out all entries', '380px', '230px', 'add');
+                                    }
+                                    /*$("#op2").empty();
+                                    $("#op3").empty();
+                                    $("#op4").empty();
+                                    $("#op5").empty();
+                                    $("#op6").empty();*/
+                                })
+                                .on('mouseout', function(){
+                                    mouseout();
+                                });
+
+        // Load L1 categories to start with
+        d3.json('http://127.0.0.1:5000/fndds?request_type=L1')
+            .then(function(data) {
+            L1_options = data;
+            setOptions("#op1", L1_selector, L1_options, "Level1_code", "Level1_description");
+       });
+
+       d3.json('http://127.0.0.1:5000/history')
+            .then(function(data) {
+            data.forEach(function(entry) {
+             foodEntries.push(entry);
+            });
+            refreshTable(table, columns, foodEntries);
+       });
+       
+
+       var table = options_space.append('table').attr("id", "tbl").attr("class", "blueTable");
+              
+    // Helper Functions to load other pages and mouseover events from here.
+    var tooltip = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
+
+    function mouseout(){
+        tooltip.transition()        
+            .duration(500)      
+            .style("opacity", 0);   
+
+    }
+
+    function mouseover(text, left, right, id){
+        var position = document.getElementById(id);
+        tooltip.transition()        
+            .duration(200)      
+            .style("opacity", .9);      
+        tooltip.html((text))  
+            .style("left", position.offsetLeft + 50)     
+            .style("top", position.offsetTop + 20);    
+
+    }
+
+    function loadPage(pagepath){
+        window.location = pagepath;
+    }
+    
+    // Helper function to Refresh nutrition data 1) When a new entry is added 2) When an entry is deleted
+    function refreshNutritionData(action, id, food_code){
+        if (action == "Add"){
+            if (food_code != ""){
+                d3.json('http://127.0.0.1:5000/nutrition?food_code=' +  food_code)
+                                        .then(function(data) {
+                                            nutrients_matrix.push(data[0]);
+                                            refreshTotalNutrition();
+                                            //displayNutrients();
+                                        });  
+                                  
+            }
+        }
+        else if (action == 'Del') {
+            nutrients_matrix.splice(id-1, 1);
+            refreshTotalNutrition();
+            //displayNutrients();
+        }
+    }
+
+    // Helper function to Refresh nutrients objects. This should contain the total nutrition values at all times
+    function refreshTotalNutrition(){
+        nutrients = {}
+            if (nutrients_matrix.length > 0){
+                keys = Object.keys(nutrients_matrix[0]);
+                keys.forEach(function(key){
+                    nutrients[key] = 0;
+                });
+                nutrients_matrix.forEach(function(rec, i){
+                    keys.forEach(function(key){
+                    nutrients[key] = nutrients[key] + rec[key];
+                    });        
+                }); 
+            }
+    }
+
+    // Helper function to delete an entry from the table
+    function deleteEntry(id){
+        foodEntries.splice(id -1, 1);
+        foodEntries.forEach(function(d, i){d["Id"] = i+1; d["Actions"] = d["Id"];})
+        refreshTable(table,columns, foodEntries);
+        refreshNutritionData("Del", id, "");
+    }
+    
+    // Helper function to Refresh a table when new entries are added or existing entries are removed
+    function refreshTable(table, columns, data){
+        table.selectAll("*").remove();
+        if (data.length <= 0) return;
+        thead = table.append("thead");
+        tbody = table.append("tbody");
+        tfoot = table.append("tfoot");
+        //items portions and quantity values (not codes) for HEI calculation
+        var items = [];
+        var portions = [];
+        var quantities = [];
+        thead.append("tr").selectAll("th").data(columns)
+                .enter().append("th").text(function (d) {return d;});
+    
+        var rows = tbody.selectAll("tr").data(data)
+                .enter().append("tr");
+    
+        var cells = rows.selectAll("td").data(function(row) {return columns.map(function(column,id) {
+            //items, portions, and quantity for HEI calculation
+            if (column == 'Item_ID'){
+                items.push(Number(row[column]));
+            }
+            if (column == 'Portion_ID'){
+                portions.push(Number(row[column]));
+            }
+            if (column == 'Quantity'){
+                quantities.push(Number(row[column]));
+            }
+            return {column: column, value: row[column]};}); })
+                .enter().append("td").html(function (d) {
+                    if (d.column == "Actions") { return "<a id='link' href='#' title='Delete Entry' onClick='deleteEntry("+ d.value +");return false;'>Delete</a>";}
+                    else { return d.value;}
+                });
+
+        //items, portions, and quantity for HEI calculation stored in user_input_string
+        //user_input_string needs to be passed to python script as arg
+        var user_input = {'Food_code' : items , 'Portion_code' : portions, 'Amount': quantities};
+        user_input_string = JSON.stringify(user_input)
+        //return user_input_string;
+        radar_url = '"../HEIindex.html/"'
+        tfoot.append("tr").append("td").attr('colspan', '11')
+            .html("<button id='rchart' class='radarButton' onclick='generateRadarChart();'>Generate Radar chart</button> | <button id='clear' class='radarButton' onclick='clearHistory();'>Clear Table</button>");
+        }
+
+    // Helper function to add options to dropdown element
+    function setOptions(id, selector, options, value_prop, text_prop){
+        selector.selectAll("option")
+        .data(options)
+        .enter()
+        .append("option")
+        .attr("value", function(d, i) {return d[value_prop]; })
+        .text(function(d) { return d[text_prop]; });
+        $(id).prepend("<option value=''>Select an option..</option>");
+        $("select"+id).val("");
+    };
+
+    // Helper function to support onchange on Category 1 dropdown
+    function L1_onchange(){
+        $("#op2").empty();
+        $("#op3").empty();
+        $("#op4").empty();
+        $("#op5").empty();
+        $("#op6").empty();
+        if (d3.select(this).property('value') != "") {
+            d3.json('http://127.0.0.1:5000/fndds?request_type=L2&L1_code=' + d3.select(this).property('value'))
+                .then(function(data) {
+                    L2_options = data;
+                    setOptions("#op2", L2_selector, L2_options, "Level2_code", "Level2_description");
+                });
+        }
+    }
+
+    // Helper function to support onchange on Category 2 dropdown
+    function L2_onchange(){
+        $("#op3").empty();
+        $("#op4").empty();
+        $("#op5").empty();
+        $("#op6").empty();
+        if (d3.select(this).property('value') != ""){
+            d3.json('http://127.0.0.1:5000/fndds?request_type=L3&L2_code=' + d3.select(this).property('value'))
+                 .then(function(data) {
+                    L3_options = data;
+                    setOptions("#op3", L3_selector, L3_options, "Level3_code", "Level3_description");
+                });
+        }
+    }
+
+    // Helper function to support onchange on Category 3 dropdown
+    function L3_onchange(){
+        $("#op4").empty();
+        $("#op5").empty();
+        $("#op6").empty();
+        if (d3.select(this).property('value') != ""){
+            d3.json('http://127.0.0.1:5000/fndds?request_type=L4&L3_code=' + d3.select(this).property('value'))
+                 .then(function(data) {
+                    L4_options = data;
+                    setOptions("#op4", L4_selector, L4_options, "Level4_code", "Level4_description");
+                });
+        }
+    }
+
+    function L4_onchange(){
+        $("#op5").empty();
+        $("#op6").empty();
+        if (d3.select(this).property('value') != ""){
+            d3.json('http://127.0.0.1:5000/fndds?request_type=item&L4_code=' + d3.select(this).property('value'))
+                 .then(function(data) {
+                    item_options = data;
+                    setOptions("#op5", item_selector, item_options, "Food_code", "Main_food_description");
+                });
+        }
+    }
+    // Helper function to support onchange on Food Item dropdown
+    function item_onchange(){
+        $("#op6").empty();
+        if (d3.select(this).property('value') != ""){
+            d3.json('http://127.0.0.1:5000/fndds?request_type=portion&food_code=' + d3.select(this).property('value'))
+                 .then(function(data) {
+                    portion_options = data;
+                    setOptions("#op6", portion_selector, portion_options, "Portion_code", "Portion_description");
+                });
+        }
+    }
+
+    // Function to clear history
+    function clearHistory(){
+        var history_url = 'http://127.0.0.1:5000/history';
+        d3.json(history_url, {
+            method: 'DELETE',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({})
+        })
+        .then(json => { foodEntries = []; refreshTable(table, columns, foodEntries)});
+    }
+    // Function to generate RadarChart
+    function generateRadarChart(){
+        var hei_url = 'http://127.0.0.1:5000/hei';
+        var history_url = 'http://127.0.0.1:5000/history';
+        d3.json(history_url, {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({table_entries: foodEntries})
+        })
+        .then(json => {
+            d3.json(hei_url, {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({hei_req_json: user_input_string})
+        })
+        .then(json => {loadPage("../HEIindex.html/");});});
+    }
+     /* END Functions*/
+    </script>
+</body>
+</html>
